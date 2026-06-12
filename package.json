@@ -1,8 +1,6 @@
 {
     "name": "@vsc-neuropilot/vsls-redux",
     "description": "A thin redux wrapper around the Live Share API to enable easily creating collaborative VS Code extensions",
-    "main": "lib/index.mjs",
-    "types": "lib/index.d.mts",
     "type": "module",
     "version": "1.0.0",
     "author": {
@@ -33,7 +31,7 @@
         "Redux"
     ],
     "bugs": {
-        "url": "https://github.com/VSC-NeuroPilot/vsls-redux/issues"
+        "url": "git+https://github.com/VSC-NeuroPilot/vsls-redux/issues"
     },
     "homepage": "https://github.com/VSC-NeuroPilot/vsls-redux",
     "dependencies": {
@@ -56,5 +54,9 @@
         "lib/**/*",
         "README.md",
         "CHANGELOG.md"
-    ]
+    ],
+    "exports": {
+        ".": "./lib/index.mjs",
+        "./package.json": "./package.json"
+    }
 }
