@@ -4,13 +4,14 @@
     "description": "A thin redux wrapper around the Live Share API to enable easily creating collaborative VS Code extensions",
     "main": "lib/index.js",
     "types": "lib/index.d.ts",
-    "version": "1.0.3",
+    "type": "module",
+    "version": "1.0.0",
     "publisher": "daytonellwanger",
     "author": "daytonellwanger",
     "scripts": {
         "build": "tsc -p ./",
-        "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
-        "lint": "tslint -p tsconfig.json",
+        "format": "prettier --write",
+        "lint": "eslint -p tsconfig.json",
         "prepublishOnly": "npm run lint"
     },
     "repository": {
@@ -27,16 +28,21 @@
     },
     "homepage": "https://github.com/vsls-contrib/vsls-redux",
     "dependencies": {
-        "redux": "^4.0.1",
-        "vsls": "^0.3.967"
+        "redux": "^5.0.1",
+        "vsls": "^1.0.4753"
     },
     "devDependencies": {
-        "typescript": "^2.6.1",
-        "vscode": "^1.1.21",
-        "tslint": "^5.8.0",
-        "@types/node": "^8.10.25",
-        "prettier": "^1.16.4",
-        "tslint-config-prettier": "^1.18.0"
+        "@changesets/cli": "^2.31.0",
+        "@eslint/eslintrc": "^3.3.5",
+        "@eslint/js": "^10.0.1",
+        "@types/node": "^25.9.3",
+        "@typescript-eslint/eslint-plugin": "^8.61.0",
+        "@typescript-eslint/parser": "^8.61.0",
+        "eslint": "^10.4.1",
+        "eslint-config-prettier": "^10.1.8",
+        "globals": "^17.6.0",
+        "prettier": "^3.8.4",
+        "typescript": "^6.0.3"
     },
     "files": [
         "lib/**/*"
