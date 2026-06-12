@@ -15,6 +15,7 @@ The current/planned code changes are:
 - Publish with provenance + OIDC
 
 User-side breaking changes are avoided, providing an easy drop-in replacement.
+The exception is if you weren't importing directly from the package's main entrypoint, in which case you will need to repoint to that.
 
 All new projects should directly use the package name as entrypoint:
 
