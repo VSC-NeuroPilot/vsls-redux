@@ -31,9 +31,11 @@
     "homepage": "https://github.com/VSC-NeuroPilot/vsls-redux",
     "dependencies": {
         "redux": "^5.0.1",
+        "type-fest": "^5.7.0",
         "vsls": "^1.0.4753"
     },
     "devDependencies": {
+        "@arethetypeswrong/core": "^0.18.3",
         "@changesets/cli": "^2.31.0",
         "@eslint/eslintrc": "^3.3.5",
         "@eslint/js": "^10.0.1",
@@ -44,6 +46,7 @@
         "eslint-config-prettier": "^10.1.8",
         "globals": "^17.6.0",
         "prettier": "^3.8.4",
+        "publint": "^0.3.21",
         "tsdown": "^0.22.2",
         "typescript": "^6.0.3"
     },

@@ -11,6 +11,7 @@ The current/planned code changes are:
     - Changelogs with Changesets
     - Azure Pipelines -> GitHub Actions
 - Publish the library as ESM-only
+- Publish with provenance + OIDC
 
 User-side breaking changes are avoided, providing an easy drop-in replacement.
 

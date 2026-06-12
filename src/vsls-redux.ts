@@ -3,13 +3,13 @@ import {
   Store,
   Action,
   Reducer,
-  DeepPartial,
   StoreEnhancer,
   StoreCreator,
   applyMiddleware,
   compose,
   Middleware,
 } from 'redux';
+import type { PartialDeep } from 'type-fest'
 import { getSharedState } from './sharedState';
 import {
   SET_INITIAL_STATE_ACTION_NAME,
@@ -46,7 +46,7 @@ type VSLSReduxStoreEnhancer = (actionFilter?: (action: Action) => boolean) => (n
 
 export const vslsStoreEnhancer: VSLSReduxStoreEnhancer = (actionFilter = (action: Action) => true) => (
   next: StoreCreator,
-) => (reducer: Reducer, initialStateOrEnhancer?: DeepPartial<any> | StoreEnhancer, enhancer?: StoreEnhancer): Store => {
+) => (reducer: Reducer, initialStateOrEnhancer?: PartialDeep<any> | StoreEnhancer, enhancer?: StoreEnhancer): Store => {
   const vslsRedux = new VSLSRedux();
   const middlewareEnhancer = applyMiddleware(vslsRedux.createMiddleware(actionFilter));
   let store: Store;
@@ -58,7 +58,7 @@ export const vslsStoreEnhancer: VSLSReduxStoreEnhancer = (actionFilter = (action
           middlewareEnhancer,
         )
       : middlewareEnhancer;
-    store = next(reducer, <DeepPartial<any>>initialStateOrEnhancer, composedEnhancer);
+    store = next(reducer, <PartialDeep<any>>initialStateOrEnhancer, composedEnhancer);
   } else {
     // StoreEnhancer
     const composedEnhancer: any = initialStateOrEnhancer
