@@ -1,0 +1,24 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": [
+    "unicorn",
+    "typescript"
+  ],
+  "categories": {
+    "correctness": "off"
+  },
+  "env": {
+    "builtin": true,
+    "node": true
+  },
+  "rules": {
+    "curly": "warn",
+    "eqeqeq": [
+      "warn",
+      "always"
+    ],
+    "no-redeclare": "warn",
+    "no-throw-literal": "warn",
+    "no-unused-expressions": "warn"
+  }
+}

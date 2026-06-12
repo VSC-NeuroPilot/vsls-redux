@@ -6,7 +6,8 @@ The current/planned code changes are:
 
 - Upgrading Redux and vsls (and subsequently fixing any issues associated with them)
 - Replace/added some developer tools, as follows:
-    - TSLint -> ESLint + typescript-eslint
+    - TSLint -> ESLint + typescript-eslint -> oxlint
+    - Prettier -> oxfmt
     - tsc -> tsdown
     - Changelogs with Changesets
     - Azure Pipelines -> GitHub Actions
