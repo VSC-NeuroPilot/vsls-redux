@@ -9,10 +9,15 @@
     "devEngines": {
         "runtime": {
             "name": "node",
-            "version": "24.17.0"
+            "version": "24.18.0",
+            "onFail": "warn"
+        },
+        "packageManager": {
+            "name": "pnpm",
+            "version": "11.8.0",
+            "onFail": "warn"
         }
     },
-    "packageManager": "pnpm@11.7.0",
     "scripts": {
         "build": "tsdown",
         "dev": "tsdown --watch",
