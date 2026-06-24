@@ -18,6 +18,7 @@ jobs:
             - uses: pnpm/action-setup@v6
             - uses: actions/setup-node@v6
               with:
+                node-version-file: ./package.json
                 cache: pnpm
                 cache-dependency-path: ./pnpm-lock.yaml
             
@@ -34,6 +35,7 @@ jobs:
             - uses: pnpm/action-setup@v6
             - uses: actions/setup-node@v6
               with:
+                node-version-file: ./package.json
                 cache: pnpm
                 cache-dependency-path: ./pnpm-lock.yaml
             
