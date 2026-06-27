@@ -1,7 +1,7 @@
 import * as vscode from 'vscode';
 import { configureStore } from '@reduxjs/toolkit';
 import { Action } from 'redux';
-import { vslsStoreEnhancer, shareState } from 'vsls-redux';
+import { shareState, createVSLS } from 'vsls-redux';
 
 type CounterState = {
     counter: number
@@ -32,12 +32,17 @@ export function activate(context: vscode.ExtensionContext): void {
 }
 
 async function activateAsync(context: vscode.ExtensionContext): Promise<void> {
+    const vsls = createVSLS();
+
     const store = configureStore({
         reducer: shareState(counter),
-        enhancers: vslsStoreEnhancer()
+        middleware: (gdm) =>
+            gdm().concat(vsls.middleware),
     });
+
+    vsls.attach(store);
     store.subscribe(() => {
-        updateStatusBar(store.getState( ).counter);
+        updateStatusBar(store.getState().counter);
     });
 
     let incrementCommand = vscode.commands.registerCommand('vslsreduxcounter.increment', () => {
