@@ -2,7 +2,7 @@
     "name": "@vsc-neuropilot/vsls-redux",
     "description": "A thin redux wrapper around the Live Share API to enable easily creating collaborative VS Code extensions",
     "type": "module",
-    "version": "1.0.0",
+    "version": "0.0.0",
     "author": {
         "name": "KTrain5369"
     },
@@ -14,7 +14,7 @@
         },
         "packageManager": {
             "name": "pnpm",
-            "version": "11.8.0",
+            "version": "11.9.0",
             "onFail": "warn"
         }
     },
@@ -23,7 +23,7 @@
         "dev": "tsdown --watch",
         "fmt": "oxfmt",
         "lint": "oxlint --type-aware --type-check",
-        "prepack": "pnpm build",
+        "prepack": "pnpm run build",
         "prepublishOnly": "pnpm run lint"
     },
     "repository": {
@@ -41,14 +41,13 @@
     "homepage": "https://github.com/VSC-NeuroPilot/vsls-redux",
     "dependencies": {
         "redux": "^5.0.1",
-        "type-fest": "^5.7.0",
         "vsls": "^1.0.4753"
     },
     "devDependencies": {
         "@arethetypeswrong/core": "^0.18.3",
         "@changesets/cli": "^2.31.0",
         "@types/node": "^24.13.2",
-        "oxfmt": "^0.54.0",
+        "oxfmt": "^0.56.0",
         "oxlint": "^1.69.0",
         "oxlint-tsgolint": "^0.23.0",
         "publint": "^0.3.21",

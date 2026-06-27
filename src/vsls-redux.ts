@@ -1,6 +1,5 @@
 import * as vsls from 'vsls/vscode';
-import { Store, Action, Reducer, StoreEnhancer, StoreCreator, applyMiddleware, compose, Middleware } from 'redux';
-import type { PartialDeep } from 'type-fest';
+import { Store, Action, StoreEnhancer, Middleware, UnknownAction, Dispatch } from 'redux';
 import { getSharedState } from './sharedState';
 import {
   SET_INITIAL_STATE_ACTION_NAME,
@@ -33,33 +32,27 @@ interface IMiddlewareProvider {
   middleware(): (next: nextFunction) => (action: Action) => any;
 }
 
-type VSLSReduxStoreEnhancer = (actionFilter?: (action: Action) => boolean) => (next: StoreCreator) => StoreCreator;
+/**
+ * @deprecated
+ * Use createVSLSMiddleware() with configureStore().
+ */
+export function vslsStoreEnhancer(
+    actionFilter?: (action: Action) => boolean
+): StoreEnhancer {
 
-export const vslsStoreEnhancer: VSLSReduxStoreEnhancer =
-  (actionFilter = (action: Action) => true) =>
-  (next: StoreCreator) =>
-  (reducer: Reducer, initialStateOrEnhancer?: PartialDeep<any> | StoreEnhancer, enhancer?: StoreEnhancer): Store => {
-    const vslsRedux = new VSLSRedux();
-    const middlewareEnhancer = applyMiddleware(vslsRedux.createMiddleware(actionFilter));
-    let store: Store;
-    if (typeof initialStateOrEnhancer === 'object') {
-      // DeepPartial<any>
-      const composedEnhancer: any = enhancer ? compose(enhancer, middlewareEnhancer) : middlewareEnhancer;
-      store = next(reducer, <PartialDeep<any>>initialStateOrEnhancer, composedEnhancer);
-    } else {
-      // StoreEnhancer
-      const composedEnhancer: any = initialStateOrEnhancer
-        ? compose(<StoreEnhancer>initialStateOrEnhancer, middlewareEnhancer)
-        : middlewareEnhancer;
-      store = next(reducer, composedEnhancer);
-    }
-    vslsRedux.setStore(store);
-    return store;
-  };
+    return (next) => (reducer, preloadedState) => {
+        console.warn(
+            "vslsStoreEnhancer() is deprecated. " +
+            "Use createVSLSMiddleware() instead."
+        );
 
-class VSLSRedux {
+        return next(reducer, preloadedState);
+    };
+}
+
+class VSLSRedux<S = unknown, A extends Action = UnknownAction> {
   private remoteService: IMiddlewareProvider | null = null;
-  private store: Store | null = null;
+  private store: Store<S, A> | null = null;
 
   public constructor() {
     this.init();
@@ -107,7 +100,7 @@ class VSLSRedux {
     };
   }
 
-  public setStore(store: Store) {
+  public setStore(store: Store<S, A>) {
     this.store = store;
   }
 }
@@ -213,4 +206,27 @@ class GuestService implements IMiddlewareProvider {
       }
     };
   };
+}
+
+//#region New stuff
+
+export function createVSLSMiddleware(
+    actionFilter?: (action: Action) => boolean
+): Middleware {
+    return new VSLSRedux().createMiddleware(actionFilter);
+}
+
+export function createVSLS(actionFilter?: (action: Action) => boolean): {
+  middleware: Middleware<{}, any, Dispatch<UnknownAction>>;
+  attach(store: Store): void;
+} {
+    const vslsRedux = new VSLSRedux();
+
+    return {
+        middleware: vslsRedux.createMiddleware(actionFilter),
+
+        attach(store: Store): void {
+            vslsRedux.setStore(store);
+        },
+    };
 }

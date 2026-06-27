@@ -3,10 +3,10 @@ import { SET_INITIAL_STATE_ACTION_NAME, State, ISetInitialStateAction } from './
 
 let sharedState: State;
 
-export const shareState: (reducer: Reducer) => Reducer = (reducer: Reducer) => {
-  return (state: State, action: Action) => {
+export function shareState<S extends State, A extends Action>(reducer: Reducer<S, A>): typeof reducer {
+  return (state: S | undefined, action: A) => {
     if (action.type === SET_INITIAL_STATE_ACTION_NAME) {
-      return (<ISetInitialStateAction>action).initialState;
+      return (action as ISetInitialStateAction).initialState;
     }
     sharedState = reducer(state, action);
     return sharedState;

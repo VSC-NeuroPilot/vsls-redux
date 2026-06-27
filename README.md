@@ -14,7 +14,7 @@ The current/planned code changes are:
 - Publish the library as ESM-only
 - Publish with provenance + OIDC
 
-User-side breaking changes are avoided, providing an easy drop-in replacement.
+~~User-side breaking changes are avoided, providing an easy drop-in replacement.~~ UPDATE: With Redux 5 & RTK, this is no longer feasible.
 The exception is if you weren't importing directly from the package's main entrypoint, in which case you will need to repoint to that.
 
 All new projects should directly use the package name as entrypoint:
