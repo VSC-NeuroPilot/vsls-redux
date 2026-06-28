@@ -2,7 +2,7 @@ import { Action } from 'redux';
 
 export type State = object | undefined;
 
-export interface ISetInitialStateAction extends Action {
+export interface ISetInitialStateAction extends Action<typeof SET_INITIAL_STATE_ACTION_NAME> {
   initialState: State;
   [key: string]: unknown;
 }
