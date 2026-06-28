@@ -207,12 +207,18 @@ importers:
 
   .:
     dependencies:
+      '@reduxjs/toolkit':
+        specifier: ^2.12.0
+        version: 2.12.0
       redux:
         specifier: ^5.0.1
         version: 5.0.1
       vsls:
         specifier: ^1.0.4753
         version: 1.0.4753
+      vsls-redux:
+        specifier: link:@vsc-neuropilot/vsls-redux
+        version: link:@vsc-neuropilot/vsls-redux
     devDependencies:
       '@arethetypeswrong/core':
         specifier: ^0.18.3

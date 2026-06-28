@@ -1,13 +1,14 @@
 import * as vsls from 'vsls/vscode';
-import { Store, Action, StoreEnhancer, Middleware, UnknownAction, Dispatch } from 'redux';
-import { getSharedState } from './sharedState';
+import type { Store, Action, StoreEnhancer, Middleware, UnknownAction, Dispatch, Reducer } from 'redux';
+import { combineReducers, configureStore, type EnhancedStore } from '@reduxjs/toolkit';
+import { getSharedState, shareState } from './sharedState';
 import {
   SET_INITIAL_STATE_ACTION_NAME,
   GET_STATE_REQUEST,
   DISPATCH_NOTIFICATION,
   SERVICE_NAME_SUFFIX,
-  State,
-  ISetInitialStateAction,
+  type State,
+  type ISetInitialStateAction,
 } from './constants';
 
 function setInitialState(initialState: State): ISetInitialStateAction {
@@ -37,17 +38,21 @@ interface IMiddlewareProvider {
  * Use createVSLSMiddleware() with configureStore().
  */
 export function vslsStoreEnhancer(
-    actionFilter?: (action: Action) => boolean
+  actionFilter?: (action: Action) => boolean
 ): StoreEnhancer {
+  console.warn(
+    "vslsStoreEnhancer() is deprecated. " +
+    "Use createVSLSMiddleware() instead."
+  );
 
-    return (next) => (reducer, preloadedState) => {
-        console.warn(
-            "vslsStoreEnhancer() is deprecated. " +
-            "Use createVSLSMiddleware() instead."
-        );
+  return (next) => (reducer, preloadedState) => {
+    console.warn(
+      "vslsStoreEnhancer() is deprecated. " +
+      "Use createVSLSMiddleware() instead."
+    );
 
-        return next(reducer, preloadedState);
-    };
+    return next(reducer, preloadedState);
+  };
 }
 
 class VSLSRedux<S = unknown, A extends Action = UnknownAction> {
@@ -211,22 +216,64 @@ class GuestService implements IMiddlewareProvider {
 //#region New stuff
 
 export function createVSLSMiddleware(
-    actionFilter?: (action: Action) => boolean
+  actionFilter?: (action: Action) => boolean
 ): Middleware {
-    return new VSLSRedux().createMiddleware(actionFilter);
+  return new VSLSRedux().createMiddleware(actionFilter);
 }
 
 export function createVSLS(actionFilter?: (action: Action) => boolean): {
   middleware: Middleware<{}, any, Dispatch<UnknownAction>>;
   attach(store: Store): void;
 } {
-    const vslsRedux = new VSLSRedux();
+  const vslsRedux = new VSLSRedux();
 
-    return {
-        middleware: vslsRedux.createMiddleware(actionFilter),
+  return {
+    middleware: vslsRedux.createMiddleware(actionFilter),
 
-        attach(store: Store): void {
-            vslsRedux.setStore(store);
-        },
-    };
+    attach(store: Store): void {
+      vslsRedux.setStore(store);
+    },
+  };
+}
+
+export interface ConfigureVSLSStoreOptions {
+  reducer: Reducer | { [key: string]: Reducer };
+  preloadedState?: unknown;
+
+  devTools?: boolean;
+
+  /**
+   * Filters which actions are synchronized over Live Share.
+   */
+  actionFilter?: (action: Action) => boolean;
+}
+
+
+export function configureVSLSStore(
+  options: ConfigureVSLSStoreOptions
+): EnhancedStore {
+  const {
+    reducer,
+    actionFilter,
+    ...rest
+  } = options;
+
+  const vslsMiddleware = createVSLSMiddleware(actionFilter);
+
+  return configureStore({
+    ...rest,
+
+    reducer: shareState(normalizeReducer(reducer)),
+
+    middleware: (getDefaultMiddleware) =>
+      getDefaultMiddleware().concat(vslsMiddleware),
+  });
+};
+
+function normalizeReducer(reducer: any): Reducer {
+  if (typeof reducer === "function") {
+    return reducer;
+  }
+
+  return combineReducers(reducer);
 }
