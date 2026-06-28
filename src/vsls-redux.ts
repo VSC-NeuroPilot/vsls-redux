@@ -1,7 +1,7 @@
 import * as vsls from 'vsls/vscode';
 import type { Store, Action, StoreEnhancer, Middleware, UnknownAction, Dispatch, Reducer } from 'redux';
 import { combineReducers, configureStore, type EnhancedStore } from '@reduxjs/toolkit';
-import { getSharedState, shareState } from './sharedState';
+import { shareState } from './sharedState';
 import {
   SET_INITIAL_STATE_ACTION_NAME,
   GET_STATE_REQUEST,
@@ -116,6 +116,7 @@ class VSLSRedux<S = unknown, A extends Action = UnknownAction> {
  */
 class HostService implements IMiddlewareProvider {
   private service: vsls.SharedService | null = null;
+  private store: Store | null = null;
   private nextActionId = 0;
 
   public constructor(store: Store | null) {
@@ -123,18 +124,15 @@ class HostService implements IMiddlewareProvider {
   }
 
   private async init(store: Store | null) {
-    const vslsAPI = await vsls.getApiAsync();
+    const vslsAPI = await vsls.getApi();
     if (vslsAPI) {
       // TODO: Namespace this service name by the calling extension's name
       this.service = await vslsAPI.shareService(SERVICE_NAME_SUFFIX);
       if (this.service!.isServiceAvailable) {
-        this.service!.onRequest(GET_STATE_REQUEST, (args: any[]) => {
-          const initialState: IInitialState = {
-            state: getSharedState(),
-            nextActionId: this.nextActionId,
-          };
-          return initialState;
-        });
+        this.service!.onRequest(GET_STATE_REQUEST, () => ({
+          state: this.store!.getState(),
+          nextActionId: this.nextActionId,
+        }));
         this.service!.onNotify(DISPATCH_NOTIFICATION, (args: any) => {
           store!.dispatch(args);
         });

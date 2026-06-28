@@ -1,28 +1,14 @@
 import { Action, Reducer } from 'redux';
-import { SET_INITIAL_STATE_ACTION_NAME, State, ISetInitialStateAction } from './constants';
+import { SET_INITIAL_STATE_ACTION_NAME, ISetInitialStateAction } from './constants';
 
-let sharedState: State;
-
-export function shareState<S extends State, A extends Action>(
-    reducer: Reducer<S, A>
+export function shareState<S, A extends Action>(
+  reducer: Reducer<S, A>
 ): Reducer<S, A | ISetInitialStateAction> {
-    return (state, action) => {
-        if (isSetInitialStateAction(action)) {
-            return action.initialState as S;
-        }
+  return (state: S | undefined, action: A | ISetInitialStateAction): S => {
+    if (action.type === SET_INITIAL_STATE_ACTION_NAME) {
+      return (action as ISetInitialStateAction).initialState as S;
+    }
 
-        const nextState = reducer(state, action);
-        sharedState = nextState;
-        return nextState;
-    };
-};
-
-function isSetInitialStateAction(
-    action: Action
-): action is ISetInitialStateAction {
-    return action.type === SET_INITIAL_STATE_ACTION_NAME;
+    return reducer(state, action as A);
+  };
 }
-
-export const getSharedState: () => State = () => {
-  return sharedState;
-};
