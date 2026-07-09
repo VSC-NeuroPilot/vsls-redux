@@ -3,7 +3,7 @@ name: Publish to npm
 on:
     push:
     workflow_dispatch:
-    
+
 permissions: {}
 
 jobs:
@@ -16,12 +16,13 @@ jobs:
         steps:
             - uses: actions/checkout@v6
               with:
-                persist-credentials: true
-            
+                  persist-credentials: true
+
             - uses: pnpm/action-setup@v6
             - uses: actions/setup-node@v6
               with:
-                node-version-file: ./package.json
+                  node-version-file: ./package.json
+                  registry-url: https://registry.npmjs.org/
             - uses: changesets/action@v1.9.0
               env:
-                NPM_TOKEN: ''
+                  NPM_TOKEN: ''

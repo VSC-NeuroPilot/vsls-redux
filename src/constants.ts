@@ -3,8 +3,8 @@ import { Action } from 'redux';
 export type State = object | undefined;
 
 export interface ISetInitialStateAction extends Action<typeof SET_INITIAL_STATE_ACTION_NAME> {
-  initialState: State;
-  [key: string]: unknown;
+	initialState: State;
+	[key: string]: unknown;
 }
 
 export const SET_INITIAL_STATE_ACTION_NAME = 'vsls-redux.setInitialState';

@@ -1,57 +1,62 @@
-import { defineConfig } from "eslint/config";
-import globals from "globals";
-import tsParser from "@typescript-eslint/parser";
-import typescriptEslint from "@typescript-eslint/eslint-plugin";
-import js from "@eslint/js";
-import { FlatCompat } from "@eslint/eslintrc";
+import { defineConfig } from 'eslint/config';
+import globals from 'globals';
+import tsParser from '@typescript-eslint/parser';
+import typescriptEslint from '@typescript-eslint/eslint-plugin';
+import js from '@eslint/js';
+import { FlatCompat } from '@eslint/eslintrc';
 
 const compat = new FlatCompat({
-    baseDirectory: __dirname,
-    recommendedConfig: js.configs.recommended,
-    allConfig: js.configs.all
+	baseDirectory: __dirname,
+	recommendedConfig: js.configs.recommended,
+	allConfig: js.configs.all,
 });
 
-module.exports = defineConfig([{
-    languageOptions: {
-        globals: {
-            ...globals.node,
-        },
+module.exports = defineConfig([
+	{
+		languageOptions: {
+			globals: {
+				...globals.node,
+			},
 
-        parser: tsParser,
-        "sourceType": "module",
+			parser: tsParser,
+			sourceType: 'module',
 
-        parserOptions: {
-            "project": "tsconfig.json",
-        },
-    },
+			parserOptions: {
+				project: 'tsconfig.json',
+			},
+		},
 
-    extends: compat.extends("prettier"),
+		extends: compat.extends('prettier'),
 
-    plugins: {
-        "@typescript-eslint": typescriptEslint,
-    },
+		plugins: {
+			'@typescript-eslint': typescriptEslint,
+		},
 
-    "rules": {
-        "@typescript-eslint/member-delimiter-style": ["warn", {
-            "multiline": {
-                "delimiter": "semi",
-                "requireLast": true,
-            },
+		rules: {
+			'@typescript-eslint/member-delimiter-style': [
+				'warn',
+				{
+					multiline: {
+						delimiter: 'semi',
+						requireLast: true,
+					},
 
-            "singleline": {
-                "delimiter": "semi",
-                "requireLast": false,
-            },
-        }],
+					singleline: {
+						delimiter: 'semi',
+						requireLast: false,
+					},
+				},
+			],
 
-        "@typescript-eslint/naming-convention": "warn",
-        "@typescript-eslint/no-unused-expressions": "warn",
-        "@typescript-eslint/semi": ["warn", "always"],
-        "curly": "warn",
-        "eqeqeq": ["warn", "always"],
-        "no-redeclare": "warn",
-        "no-throw-literal": "warn",
-        "no-unused-expressions": "off",
-        "semi": "off",
-    },
-}]);
+			'@typescript-eslint/naming-convention': 'warn',
+			'@typescript-eslint/no-unused-expressions': 'warn',
+			'@typescript-eslint/semi': ['warn', 'always'],
+			curly: 'warn',
+			eqeqeq: ['warn', 'always'],
+			'no-redeclare': 'warn',
+			'no-throw-literal': 'warn',
+			'no-unused-expressions': 'off',
+			semi: 'off',
+		},
+	},
+]);

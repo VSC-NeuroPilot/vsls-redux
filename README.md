@@ -60,7 +60,7 @@ import { vslsStoreEnhancer } from 'vsls-redux';
 const store = createStore(reducer, <any> vslsStoreEnhancer());
 ```
 
->Note that you must cast the enhancer to `<any>` if using TypeScript because the redux typings are incorrect for store enhancers.
+> Note that you must cast the enhancer to `<any>` if using TypeScript because the redux typings are incorrect for store enhancers.
 
 This adds middleware to the redux store that will ensure that all guests receive all synced actions in the same order.
 
@@ -83,7 +83,7 @@ const store = createStore(reducer, <any> vslsStoreEnhancer(shouldSyncAction));
 
 ## Syncing Initial State
 
-If you want a slice of state for a newly joined guest to match the state of the host when they join the Live Share session, you can specify that the slice of state should be synced by wrapping the reducer responsible for that slice with `shareState`. 
+If you want a slice of state for a newly joined guest to match the state of the host when they join the Live Share session, you can specify that the slice of state should be synced by wrapping the reducer responsible for that slice with `shareState`.
 
 For example, to sync all state:
 
@@ -94,4 +94,4 @@ import { shareState } from 'vsls-redux';
 const store = createStore(shareState(reducer));
 ```
 
->Note that there is currently a limitation where only one slice of state can be synced.
+> Note that there is currently a limitation where only one slice of state can be synced.

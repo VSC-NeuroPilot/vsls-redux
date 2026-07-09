@@ -1,61 +1,62 @@
 {
-    "name": "vsls-redux-counter",
-    "displayName": "VSLS Redux Counter",
-    "description": "A collaborative counter extension powered by vsls-redux",
-    "version": "0.0.1",
-    "publisher": "dayton",
-    "engines": {
-        "vscode": "^1.25.0"
-    },
-    "categories": [
-        "Other"
-    ],
-    "activationEvents": [
-        "*"
-    ],
-    "main": "./out/extension",
-    "contributes": {
-        "commands": [
-            {
-                "command": "vslsreduxcounter.increment",
-                "title": "Increment"
-            },
-            {
-                "command": "vslsreduxcounter.decrement",
-                "title": "Decrement"
-            },
-            {
-                "command": "vslsreduxcounter.incrementifodd",
-                "title": "Increment If Odd"
-            },
-            {
-                "command": "vslsreduxcounter.incrementasync",
-                "title": "Increment Async"
-            }
-        ]
-    },
-    "scripts": {
-        "vscode:prepublish": "npm run compile",
-        "compile": "tsc -p ./",
-        "watch": "tsc -watch -p ./"
-    },
-    "dependencies": {
-        "redux": "^5.0.1",
-        "vsls": "^1.0.4753",
-        "vsls-redux": "workspace:@vsc-neuropilot/vsls-redux@*"
-    },
-    "devDependencies": {
-        "@eslint/eslintrc": "^3.3.5",
-        "@eslint/js": "^10.0.1",
-        "@reduxjs/toolkit": "^2.12.0",
-        "@types/mocha": "^10.0.10",
-        "@types/node": "^24.12.0",
-        "@types/vscode": "^1.25.0",
-        "@typescript-eslint/eslint-plugin": "^8.62.0",
-        "@typescript-eslint/parser": "^8.62.0",
-        "eslint": "^10.5.0",
-        "eslint-config-prettier": "^10.1.8",
-        "globals": "^17.7.0",
-        "typescript": "^6.0.3"
-    }
+	"name": "vsls-redux-counter",
+	"displayName": "VSLS Redux Counter",
+	"version": "0.0.1",
+	"private": true,
+	"description": "A collaborative counter extension powered by vsls-redux",
+	"categories": [
+		"Other"
+	],
+	"publisher": "dayton",
+	"main": "./out/extension",
+	"scripts": {
+		"vscode:prepublish": "npm run compile",
+		"compile": "tsc -p ./",
+		"watch": "tsc -watch -p ./"
+	},
+	"dependencies": {
+		"redux": "^5.0.1",
+		"vsls": "^1.0.4753",
+		"vsls-redux": "workspace:@vsc-neuropilot/vsls-redux@*"
+	},
+	"devDependencies": {
+		"@eslint/eslintrc": "^3.3.5",
+		"@eslint/js": "^10.0.1",
+		"@reduxjs/toolkit": "^2.12.0",
+		"@types/mocha": "^10.0.10",
+		"@types/node": "^24.12.0",
+		"@types/vscode": "^1.25.0",
+		"@typescript-eslint/eslint-plugin": "^8.62.0",
+		"@typescript-eslint/parser": "^8.62.0",
+		"eslint": "^10.5.0",
+		"eslint-config-prettier": "^10.1.8",
+		"globals": "^17.7.0",
+		"typescript": "^6.0.3"
+	},
+	"contributes": {
+		"commands": [
+			{
+				"command": "vslsreduxcounter.increment",
+				"title": "Increment"
+			},
+			{
+				"command": "vslsreduxcounter.decrement",
+				"title": "Decrement"
+			},
+			{
+				"command": "vslsreduxcounter.incrementifodd",
+				"title": "Increment If Odd"
+			},
+			{
+				"command": "vslsreduxcounter.incrementasync",
+				"title": "Increment Async"
+			}
+		]
+	},
+	"activationEvents": [
+		"*"
+	],
+	"engines": {
+		"vscode": "^1.25.0"
+	}
 }

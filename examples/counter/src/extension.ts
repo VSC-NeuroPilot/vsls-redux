@@ -4,68 +4,67 @@ import { Action } from 'redux';
 import { shareState, createVSLS } from 'vsls-redux';
 
 type CounterState = {
-    counter: number
+	counter: number;
 };
 
 // Reducer
 function counter(state: CounterState = { counter: 0 }, action: Action): CounterState {
-    switch (action.type) {
-        case 'INCREMENT':
-            return {
-                counter: state.counter + 1
-            };
-        case 'DECREMENT':
-            return {
-                counter: state.counter - 1
-            };
-        default:
-            return state;
-    }
+	switch (action.type) {
+		case 'INCREMENT':
+			return {
+				counter: state.counter + 1,
+			};
+		case 'DECREMENT':
+			return {
+				counter: state.counter - 1,
+			};
+		default:
+			return state;
+	}
 }
 
 function updateStatusBar(count: number): void {
-    vscode.window.setStatusBarMessage(`Counter: ${count}`);
+	vscode.window.setStatusBarMessage(`Counter: ${count}`);
 }
 
 export function activate(context: vscode.ExtensionContext): void {
-    activateAsync(context);
+	activateAsync(context);
 }
 
 async function activateAsync(context: vscode.ExtensionContext): Promise<void> {
-    const vsls = createVSLS();
+	const vsls = createVSLS();
 
-    const store = configureStore({
-        reducer: shareState(counter),
-        middleware: (gdm) =>
-            gdm().concat(vsls.middleware),
-    });
+	const store = configureStore({
+		reducer: shareState(counter),
+		middleware: (gdm) => gdm().concat(vsls.middleware),
+	});
 
-    vsls.attach(store);
-    store.subscribe(() => {
-        updateStatusBar(store.getState().counter);
-    });
+	vsls.attach(store);
+	store.subscribe(() => {
+		updateStatusBar(store.getState().counter);
+	});
 
-    let incrementCommand = vscode.commands.registerCommand('vslsreduxcounter.increment', () => {
-        store.dispatch({ type: 'INCREMENT' });
-    });
-    let decrementCommand = vscode.commands.registerCommand('vslsreduxcounter.decrement', () => {
-        store.dispatch({ type: 'DECREMENT' });
-    });
-    let incrementIfOddCommand = vscode.commands.registerCommand('vslsreduxcounter.incrementifodd', () => {
-        if (store.getState().counter % 2 !== 0) {
-            store.dispatch({ type: 'INCREMENT' });
-        }
-    });
-    let incrementAsyncCommand = vscode.commands.registerCommand('vslsreduxcounter.incrementasync', () => {
-        setTimeout(() => {
-            store.dispatch({ type: 'INCREMENT' });
-        }, 1000);
-    });
+	let incrementCommand = vscode.commands.registerCommand('vslsreduxcounter.increment', () => {
+		store.dispatch({ type: 'INCREMENT' });
+	});
+	let decrementCommand = vscode.commands.registerCommand('vslsreduxcounter.decrement', () => {
+		store.dispatch({ type: 'DECREMENT' });
+	});
+	let incrementIfOddCommand = vscode.commands.registerCommand('vslsreduxcounter.incrementifodd', () => {
+		if (store.getState().counter % 2 !== 0) {
+			store.dispatch({ type: 'INCREMENT' });
+		}
+	});
+	let incrementAsyncCommand = vscode.commands.registerCommand('vslsreduxcounter.incrementasync', () => {
+		setTimeout(() => {
+			store.dispatch({ type: 'INCREMENT' });
+		}, 1000);
+	});
 
-    context.subscriptions.push(incrementCommand);
-    context.subscriptions.push(decrementCommand);
-    context.subscriptions.push(incrementIfOddCommand);
-    context.subscriptions.push(incrementAsyncCommand);
+	context.subscriptions.push(incrementCommand);
+	context.subscriptions.push(decrementCommand);
+	context.subscriptions.push(incrementIfOddCommand);
+	context.subscriptions.push(incrementAsyncCommand);
 
-    updateStatusBar(store.getState().counter);
+	updateStatusBar(store.getState().counter);
 }

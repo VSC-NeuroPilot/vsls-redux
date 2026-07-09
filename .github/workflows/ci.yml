@@ -13,31 +13,31 @@ jobs:
         steps:
             - uses: actions/checkout@v6
               with:
-                persist-credentials: false
-            
+                  persist-credentials: false
+
             - uses: pnpm/action-setup@v6
             - uses: actions/setup-node@v6
               with:
-                node-version-file: ./package.json
-                cache: pnpm
-                cache-dependency-path: ./pnpm-lock.yaml
-            
+                  node-version-file: ./package.json
+                  cache: pnpm
+                  cache-dependency-path: ./pnpm-lock.yaml
+
             - run: pnpm install
             - run: pnpm run lint src
-    
+
     format:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v6
               with:
-                persist-credentials: false
-            
+                  persist-credentials: false
+
             - uses: pnpm/action-setup@v6
             - uses: actions/setup-node@v6
               with:
-                node-version-file: ./package.json
-                cache: pnpm
-                cache-dependency-path: ./pnpm-lock.yaml
-            
+                  node-version-file: ./package.json
+                  cache: pnpm
+                  cache-dependency-path: ./pnpm-lock.yaml
+
             - run: pnpm install
             - run: pnpm run fmt --check src
