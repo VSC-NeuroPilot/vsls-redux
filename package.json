@@ -1,6 +1,6 @@
 {
 	"name": "@vsc-neuropilot/vsls-redux",
-	"version": "0.0.0",
+	"version": "0.0.1",
 	"description": "A thin redux wrapper around the Live Share API to enable easily creating collaborative VS Code extensions",
 	"keywords": [
 		"Live",
